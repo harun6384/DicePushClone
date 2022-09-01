@@ -7,10 +7,10 @@ public class AllyCharacter : CharactersBase
     private Rigidbody _rigidbody;
     private Transform _target;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float viewDistance;
     [SerializeField] private GameObject enemyParent;
     [SerializeField] private Transform pushable;
     [SerializeField] private List<Transform> enemyCharacters;
+    [SerializeField] private float maxSpeed;
     private float _distanceBetweenEnemyCharacter;
     private float _distanceToPushable;
     private bool _whatToAct;
@@ -60,6 +60,7 @@ public class AllyCharacter : CharactersBase
 
     public override void GetTarget()
     {
+        GetDistanceToPushable();
         RemoveAllEnemyCharsOnList();
         AddAllEnemyCharsOnList();
         var count = enemyCharacters.Count;
@@ -82,10 +83,21 @@ public class AllyCharacter : CharactersBase
 
     public override void Push()
     {
-        //_target = pushable;
-        _rigidbody.velocity = Vector3.forward * moveSpeed;
-        
+        MoveWithAddForce();
+        //MoveWithRbVelocity();
     }
+
+    private void MoveWithRbVelocity()
+    {
+        _rigidbody.velocity = Vector3.back * moveSpeed;
+    }
+
+    private void MoveWithAddForce()
+    {
+        _rigidbody.AddForce(Vector3.forward * moveSpeed, ForceMode.VelocityChange);
+        _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed);
+    }
+
     private void AddAllEnemyCharsOnList()
     {
         foreach (Transform child in enemyParent.GetComponentInChildren<Transform>())
@@ -110,6 +122,7 @@ public class AllyCharacter : CharactersBase
             float fractionOfJourney = distanceCovered / distanceBetweenTarget;
             var curTargetPos = _target.position;
             transform.position = Vector3.Lerp(transform.position, curTargetPos, fractionOfJourney);
+            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed * 2);
         }
         else
         {

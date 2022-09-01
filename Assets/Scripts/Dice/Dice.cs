@@ -9,6 +9,8 @@ public class Dice : MonoBehaviour
     [SerializeField] private int _diceValue;
     [SerializeField] private GameObject allyPrefab;
     [SerializeField] private GameObject allyParent;
+    private int _diceMultiplier = 1;
+    private bool _isScaleIncreased = false;
     private bool _landed = false;
     private Rigidbody _rigidbody;
     private float _timer = 0;
@@ -42,9 +44,11 @@ public class Dice : MonoBehaviour
 
     private void InstantiateAllyPrefab()
     {
+        _diceValue *= _diceMultiplier;
         for (int i = 1; i <= _diceValue; i++)
         {
-            Instantiate(allyPrefab, transform.position, Quaternion.identity, allyParent.transform);
+            var go = Instantiate(allyPrefab, transform.position, Quaternion.identity, allyParent.transform);
+            if(_isScaleIncreased) go.transform.localScale *= 2;
         }
     }
     private void CheckDiceSide()
@@ -62,6 +66,22 @@ public class Dice : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out EnemyCharacter enemyCharacter))
         {
             Destroy(collision.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out DoubleX doubleX))
+        {
+            _diceMultiplier = 2;
+            _isScaleIncreased = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out DoubleX doubleX))
+        {
+            _diceMultiplier = 1;
+            _isScaleIncreased = false;
         }
     }
 }

@@ -8,6 +8,7 @@ public class EnemyDice : MonoBehaviour
     [SerializeField] private int _diceValue;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject enemyParent;
+    private int _diceMultiplier = 1;
     private bool _landed = false;
     private Rigidbody _rigidbody;
     private float _timer = 0;
@@ -41,6 +42,7 @@ public class EnemyDice : MonoBehaviour
 
     private void InstantiateEnemyPrefab()
     {
+        _diceValue *= _diceMultiplier;
         for (int i = 1; i <= _diceValue; i++)
         {
             Instantiate(enemyPrefab, transform.position, Quaternion.identity, enemyParent.transform);
@@ -61,6 +63,20 @@ public class EnemyDice : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out AllyCharacter allyCharacter))
         {
             Destroy(collision.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out DoubleX doubleX))
+        {
+            _diceMultiplier = 2;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out DoubleX doubleX))
+        {
+            _diceMultiplier = 1;
         }
     }
 }
