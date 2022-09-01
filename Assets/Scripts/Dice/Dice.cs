@@ -11,6 +11,7 @@ public class Dice : MonoBehaviour
     [SerializeField] private GameObject allyParent;
     private bool _landed = false;
     private Rigidbody _rigidbody;
+    private float _timer = 0;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class Dice : MonoBehaviour
     private void Update()
     {
         CheckForLanded();
+        _timer += Time.deltaTime;
         if (_landed)
         {
             InstantiateAllyPrefab();
@@ -31,7 +33,7 @@ public class Dice : MonoBehaviour
 
     private void CheckForLanded()
     {
-        if (_rigidbody.velocity == Vector3.zero)
+        if (_timer >= 1 &&_rigidbody.velocity.magnitude <= .5)
         {
             CheckDiceSide();
             _landed = true;
@@ -49,7 +51,7 @@ public class Dice : MonoBehaviour
     {
         foreach (var side in _diceValues)
         {
-            if (side.ReturnGrounded())
+            if (side.OnGround)
             {
                 _diceValue = side.DicesesValue;
             }

@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6191849756091698556}
   - component: {fileID: 6191849756091698557}
   - component: {fileID: 6191849756091698546}
+  - component: {fileID: 6356082903560318675}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -129,6 +130,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &6356082903560318675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191849756091698544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220da0068970a94498be5575faf1f1c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6191849756224049275
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +155,7 @@ GameObject:
   - component: {fileID: 6191849756224049156}
   - component: {fileID: 6191849756224049157}
   - component: {fileID: 6191849756224049158}
+  - component: {fileID: 662512068}
   m_Layer: 0
   m_Name: Pushable
   m_TagString: Untagged
@@ -241,6 +255,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 118
   m_CollisionDetection: 0
+--- !u!114 &662512068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191849756224049275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e67397300840eb46bdad43f8aac75cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6191849757521269969
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +278,8 @@ GameObject:
   - component: {fileID: 6191849757521269981}
   - component: {fileID: 6191849757521269970}
   - component: {fileID: 6191849757521269971}
-  - component: {fileID: 6191849757521269968}
+  - component: {fileID: 1926446131}
+  - component: {fileID: 1926446127}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -323,8 +350,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6191849757521269968
-MeshCollider:
+--- !u!114 &1926446131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191849757521269969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f83749c531fd0e42b24536a723817bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1926446127
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -333,7 +372,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 1, z: 10}
+  m_Center: {x: 0, y: -0.5, z: 0}

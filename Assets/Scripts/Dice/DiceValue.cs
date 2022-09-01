@@ -9,15 +9,18 @@ public class DiceValue : MonoBehaviour
     private bool _onGround = false;
     public bool OnGround => _onGround;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out Ground ground))
         {
             _onGround = true;
         }
     }
-    public bool ReturnGrounded()
+    private void OnTriggerExit(Collider other)
     {
-        return _onGround;
+        if (other.gameObject.TryGetComponent(out Ground ground))
+        {
+            _onGround = false;
+        }
     }
 }

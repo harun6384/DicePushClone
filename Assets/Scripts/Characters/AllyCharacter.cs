@@ -30,8 +30,12 @@ public class AllyCharacter : CharactersBase
     {
         RemoveAllEnemyCharsOnList();
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        if (_target == null)
+        {
+            GetTarget();
+        }
         Act();
     }
     private void OnCollisionEnter(Collision collision)
@@ -56,11 +60,14 @@ public class AllyCharacter : CharactersBase
 
     public override void GetTarget()
     {
+        RemoveAllEnemyCharsOnList();
+        AddAllEnemyCharsOnList();
         var count = enemyCharacters.Count;
 
         for (var i = 0; i < count; i++)
         {
-            _distanceBetweenEnemyCharacter = Vector3.Distance(transform.position, enemyCharacters[i].position);
+            if (enemyCharacters[i] == null) return;
+            _distanceBetweenEnemyCharacter = Mathf.Abs(Vector3.Distance(transform.position, enemyCharacters[i].position));
             if (_distanceBetweenEnemyCharacter < _distanceToPushable)
             {
                 _target = enemyCharacters[i];
@@ -75,8 +82,9 @@ public class AllyCharacter : CharactersBase
 
     public override void Push()
     {
+        //_target = pushable;
         _rigidbody.velocity = Vector3.forward * moveSpeed;
-        RemoveAllEnemyCharsOnList();
+        
     }
     private void AddAllEnemyCharsOnList()
     {
@@ -91,7 +99,7 @@ public class AllyCharacter : CharactersBase
     }
     private void GetDistanceToPushable()
     {
-        _distanceToPushable = Vector3.Distance(transform.position, pushable.position);
+        _distanceToPushable = Mathf.Abs(Vector3.Distance(pushable.position, transform.position));
     }
     private void MoveToTheTarget()
     {
