@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  viewDistance: 0
   allyParent: {fileID: 0}
   pushable: {fileID: 0}
   allyCharacters: []

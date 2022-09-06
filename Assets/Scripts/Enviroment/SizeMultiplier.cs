@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleX : MultiplierBase
+public class SizeMultiplier : MultiplierBase
 {
     public override void DestroyAfterAWhile()
     {

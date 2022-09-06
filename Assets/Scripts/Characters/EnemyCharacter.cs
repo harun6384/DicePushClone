@@ -60,15 +60,16 @@ public class EnemyCharacter : CharactersBase
 
     public override void GetTarget()
     {
-        GetDistanceToPushable();
         RemoveAllAllyCharsOnList();
         AddAllAllyCharsOnList();
         var count = allyCharacters.Count;
 
         for (var i = 0; i < count; i++)
         {
+            GetDistanceToPushable();
             if (allyCharacters[i] == null) return;
-            _distanceBetweenAllyCharacter = Mathf.Abs(Vector3.Distance(transform.position, allyCharacters[i].position));
+            //_distanceBetweenAllyCharacter = Vector3.Distance(transform.position, allyCharacters[i].position);
+            GetDistanceBetweenAllyCharacter(i);
             if (_distanceBetweenAllyCharacter < _distanceToPushable)
             {
                 _target = allyCharacters[i];
@@ -80,16 +81,14 @@ public class EnemyCharacter : CharactersBase
             }
         }
     }
+    private void GetDistanceBetweenAllyCharacter(int i)
+    {
+        _distanceBetweenAllyCharacter = transform.position.z - allyCharacters[i].position.z;
+    }
 
     public override void Push()
     {
         MoveWithAddForce();
-        //MoveWithRbVelocity();
-    }
-
-    private void MoveWithRbVelocity()
-    {
-        _rigidbody.velocity = Vector3.back * moveSpeed;
     }
 
     private void MoveWithAddForce()
@@ -111,7 +110,8 @@ public class EnemyCharacter : CharactersBase
     }
     private void GetDistanceToPushable()
     {
-        _distanceToPushable = Mathf.Abs(Vector3.Distance(transform.position, pushable.position));
+        //_distanceToPushable = Vector3.Distance(transform.position, pushable.position);
+        _distanceToPushable = transform.position.z - pushable.position.z;
     }
     private void MoveToTheTarget()
     {
@@ -122,7 +122,7 @@ public class EnemyCharacter : CharactersBase
             float fractionOfJourney = distanceCovered / distanceBetweenTarget;
             var curTargetPos = _target.position;
             transform.position = Vector3.Lerp(transform.position, curTargetPos, fractionOfJourney);
-            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed * 2);
+            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed * 1.5f);
         }
         else
         {

@@ -7,8 +7,8 @@ public class AllyCharacter : CharactersBase
     private Rigidbody _rigidbody;
     private Transform _target;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private GameObject enemyParent;
     [SerializeField] private Transform pushable;
+    [SerializeField] private GameObject enemyParent;
     [SerializeField] private List<Transform> enemyCharacters;
     [SerializeField] private float maxSpeed;
     private float _distanceBetweenEnemyCharacter;
@@ -19,8 +19,8 @@ public class AllyCharacter : CharactersBase
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        enemyParent = FindObjectOfType<EnemyParent>().gameObject;
         pushable = FindObjectOfType<Pushable>().transform;
+        enemyParent = FindObjectOfType<EnemyParent>().gameObject;
         AddAllEnemyCharsOnList();
         GetDistanceToPushable();
         GetTarget();
@@ -60,15 +60,16 @@ public class AllyCharacter : CharactersBase
 
     public override void GetTarget()
     {
-        GetDistanceToPushable();
         RemoveAllEnemyCharsOnList();
         AddAllEnemyCharsOnList();
         var count = enemyCharacters.Count;
 
         for (var i = 0; i < count; i++)
         {
+            GetDistanceToPushable();
             if (enemyCharacters[i] == null) return;
-            _distanceBetweenEnemyCharacter = Mathf.Abs(Vector3.Distance(transform.position, enemyCharacters[i].position));
+            //_distanceBetweenEnemyCharacter = Vector3.Distance(enemyCharacters[i].position, transform.position);
+            GetDistanceBetweenEnemyCharacter(i);
             if (_distanceBetweenEnemyCharacter < _distanceToPushable)
             {
                 _target = enemyCharacters[i];
@@ -80,16 +81,14 @@ public class AllyCharacter : CharactersBase
             }
         }
     }
+    private void GetDistanceBetweenEnemyCharacter(int i)
+    {
+        _distanceBetweenEnemyCharacter = enemyCharacters[i].position.z - transform.position.z;
+    }
 
     public override void Push()
     {
         MoveWithAddForce();
-        //MoveWithRbVelocity();
-    }
-
-    private void MoveWithRbVelocity()
-    {
-        _rigidbody.velocity = Vector3.back * moveSpeed;
     }
 
     private void MoveWithAddForce()
@@ -111,7 +110,8 @@ public class AllyCharacter : CharactersBase
     }
     private void GetDistanceToPushable()
     {
-        _distanceToPushable = Mathf.Abs(Vector3.Distance(pushable.position, transform.position));
+        //_distanceToPushable = Vector3.Distance(pushable.position, transform.position);
+        _distanceToPushable = pushable.position.z - transform.position.z;
     }
     private void MoveToTheTarget()
     {
@@ -122,7 +122,7 @@ public class AllyCharacter : CharactersBase
             float fractionOfJourney = distanceCovered / distanceBetweenTarget;
             var curTargetPos = _target.position;
             transform.position = Vector3.Lerp(transform.position, curTargetPos, fractionOfJourney);
-            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed * 2);
+            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, maxSpeed / 10);
         }
         else
         {

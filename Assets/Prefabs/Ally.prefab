@@ -126,8 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  viewDistance: 0
-  enemyParent: {fileID: 0}
   pushable: {fileID: 0}
+  enemyParent: {fileID: 0}
   enemyCharacters: []
   maxSpeed: 5

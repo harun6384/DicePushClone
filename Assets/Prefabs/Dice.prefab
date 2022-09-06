@@ -1319,7 +1319,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c616607cafe7948bbd91f8787b954d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _diceValues: []
+  _diceValues:
+  - {fileID: 1636536981}
+  - {fileID: 1955017750}
+  - {fileID: 65820307}
+  - {fileID: 2020306567}
+  - {fileID: 1807738730}
+  - {fileID: 1607120880}
   _diceValue: 0
-  allyPrefab: {fileID: 6044812347772997569, guid: b86f8a06f9b91f34f8f8428531618e08, type: 3}
-  allyParent: {fileID: 0}
+  characterPrefab: {fileID: 6044812347772997569, guid: b86f8a06f9b91f34f8f8428531618e08, type: 3}
+  parent: {fileID: 0}

@@ -131,10 +131,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f908f2c64654cb14d9d78ad80e2c2e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _diceValues: []
+  _diceValues:
+  - {fileID: 4503057899817832995}
+  - {fileID: 4503057899599443104}
+  - {fileID: 4503057900390798885}
+  - {fileID: 4503057899392101937}
+  - {fileID: 4503057899716405212}
+  - {fileID: 4503057898983241542}
   _diceValue: 0
-  enemyPrefab: {fileID: 6068436465419762649, guid: d6841783f220c704abd2ee7ea8e22dfd, type: 3}
-  enemyParent: {fileID: 0}
+  characterPrefab: {fileID: 6068436465419762649, guid: d6841783f220c704abd2ee7ea8e22dfd, type: 3}
+  parent: {fileID: 0}
 --- !u!1 &6381273602491383724
 GameObject:
   m_ObjectHideFlags: 0
