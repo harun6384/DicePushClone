@@ -2,40 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class DrawTrajectory : MonoBehaviour
 {
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] [Range(3,30)] private int lineSegmentCount = 20;
+    private DiceLauncher _diceLauncher;
+    private LineRenderer _lineRenderer;
 
-    private List<Vector3> _linePoints = new List<Vector3>();
+    public int numPoints = 50;
+    public float timeBetweenPoints = 0.1f;
 
-    public static DrawTrajectory Instance;
     private void Awake()
     {
-        Instance = this;
+        _diceLauncher = GetComponent<DiceLauncher>();
+        _lineRenderer = GetComponent<LineRenderer>();
     }
-    public void UpdateTrajectory(Vector3 forceVector, Rigidbody rigidBody, Vector3 startingPoint)
+    private void Update()
     {
-        Vector3 velocity = (forceVector / rigidBody.mass) * Time.fixedDeltaTime;
-        float flightDuration = (2 * velocity.y) / Physics.gravity.y;
-        float stepTime = flightDuration / lineSegmentCount;
-        _linePoints.Clear();
-        for (int i = 0; i < lineSegmentCount; i++)
+        _lineRenderer.positionCount = numPoints;
+        List<Vector3> points = new List<Vector3>();
+        Vector3 startingPosition = _diceLauncher.transform.position;
+        Vector3 startingVelocity = _diceLauncher.transform.up * _diceLauncher.Direction.y / 300f;
+        for (float t = 0; t < numPoints; t+= timeBetweenPoints)
         {
-            float stepTimePassed = stepTime * i;
-            Vector3 movementVector = new Vector3(
-                velocity.x = stepTimePassed,
-                velocity.y = stepTimePassed - .5f * Physics.gravity.y * stepTimePassed * stepTimePassed,
-                velocity.z = stepTimePassed
-                );
-            _linePoints.Add(movementVector + startingPoint);
+            Vector3 newPoint = startingPosition + t * startingVelocity;
+            //newPoint.y = startingPosition.y + startingVelocity.y * t + Physics.gravity.y / 2f * t * t;
+            newPoint = startingPosition + startingVelocity * t + Physics.gravity / 2f * t * t;
+            points.Add(newPoint);
         }
-        lineRenderer.positionCount = _linePoints.Count;
-        lineRenderer.SetPositions(_linePoints.ToArray());
+        _lineRenderer.SetPositions(points.ToArray());
     }
-    public void HideLine()
-    {
-        lineRenderer.positionCount = 0;
-    }
-
 }

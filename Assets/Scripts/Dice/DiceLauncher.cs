@@ -10,29 +10,32 @@ public class DiceLauncher : MonoBehaviour
     [SerializeField] private GameObject cooldownIndicator;
     private Vector3 startPosition;
     private Vector3 endPosition;
+    private Vector3 _direction;
     private float forceMultiplier = 1;
     private bool canLaunch = true;
     private float cooldown = 2f;
     private float curCooldown = 0;
+    public Vector3 Direction => _direction;
+
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (canLaunch)
         {
-            StartDrag();
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            ContinueDrag();
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if (canLaunch)
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartDrag();
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                ContinueDrag();
+            }
+            else if (Input.GetMouseButtonUp(0))
             {
                 EndDrag();
             }
         }
-        if (!canLaunch)
+        else
         {
             StartCooldown();
             CooldownIndicator();
@@ -49,8 +52,8 @@ public class DiceLauncher : MonoBehaviour
     }
     private void EndDrag()
     {
-        Vector3 direction =  startPosition - endPosition;
-        Launch(direction);
+        _direction =  startPosition - endPosition;
+        if(Vector3.Distance(startPosition,endPosition)> 0.05f) Launch(_direction);
         canLaunch = false;
         curCooldown = 0f;
     }
