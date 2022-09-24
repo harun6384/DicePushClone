@@ -11,6 +11,7 @@ public class AllyCharacter : CharactersBase
     [SerializeField] private GameObject enemyParent;
     [SerializeField] private List<Transform> enemyCharacters;
     [SerializeField] private float maxSpeed;
+    private Animator _animator;
     private float _distanceBetweenEnemyCharacter;
     private float _distanceToPushable;
     private bool _whatToAct;
@@ -21,8 +22,10 @@ public class AllyCharacter : CharactersBase
         _rigidbody = GetComponent<Rigidbody>();
         pushable = FindObjectOfType<Pushable>().transform;
         enemyParent = FindObjectOfType<EnemyParent>().gameObject;
+        _animator = GetComponentInChildren<Animator>();
         AddAllEnemyCharsOnList();
         GetDistanceToPushable();
+        _animator.SetBool("Pushing", false);
         GetTarget();
         _startTime = Time.time;
     }
@@ -45,6 +48,14 @@ public class AllyCharacter : CharactersBase
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
+        if (collision.gameObject.TryGetComponent(out Pushable pushable))
+        {
+            _animator.SetBool("Pushing", true);
+        }
+    }
+    private void OnCollisionExit(Collision collision)   
+    {
+        _animator.SetBool("Pushing", false);
     }
     public override void Act()
     {
